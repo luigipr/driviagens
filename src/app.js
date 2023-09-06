@@ -1,6 +1,7 @@
 import  express  from "express";
 import cors from 'cors';
 import dotenv from "dotenv"
+import router from "./routes/router.js";
 
 
 
@@ -11,7 +12,7 @@ app.use(express.json())
 dotenv.config();
 
 
-app.use(Router)
+app.use(router)
 
 
 
