@@ -1,6 +1,6 @@
 import db from "../databases/database.js";
 
-export async function cityPost(name) {
+export async function create(name) {
     try {
         const result = await db.query(`INSERT INTO cities (name) VALUES ($1)`, [name]); 
     } catch (error) {
@@ -23,4 +23,14 @@ export async function findCity(name) {
     }
 }
 
-export const citiesRepository = {cityPost, findCity}
+export async function findCityById(id) {
+    try {
+        const result = await db.query(`SELECT * FROM cities WHERE id = $1`, [id]);
+        return result.rows[0];
+    } catch (error) {
+        console.error("Error querying city:", error);
+        throw error;
+    }
+}
+
+export const citiesRepository = {create, findCity, findCityById}

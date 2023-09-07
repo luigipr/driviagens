@@ -1,18 +1,17 @@
-import { findCity } from "../repositories/cities.repository.js";
+import { conflictError } from "../errors/conflict.js";
+import { citiesRepository } from "../repositories/cities.repository.js";
 
-export async function validateCity(name) {
-    try{
-    const city = await findCity(name)
-    console.log(city)
+async function validateCity(name) {
+    const city = await citiesRepository.findCity(name)
+    //console.log(city)
 
-    if (!city) return false
+    if (city) throw conflictError("city")
+    //return false
     //if (!city) throw alreadyExists("city");
 
     return true
     //if (city !== []) return true
     //return false
-    } catch (error) {
-        console.error("Error validating city:", error);
-        return false; 
-    }
 }
+
+export const citiesServices = {validateCity}

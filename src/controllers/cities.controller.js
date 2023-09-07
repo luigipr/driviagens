@@ -1,27 +1,18 @@
-import { cityPost } from "../repositories/cities.repository.js";
-import { validateCity } from "../services/cities.service.js";
+import { citiesRepository } from "../repositories/cities.repository.js";
+import { citiesServices } from "../services/cities.service.js";
 
 
-export async function postCity (req, res) {
+export async function create (req, res) {
 
     const { name } = req.body;
 
-    try{
-
-        if (await validateCity(name)) { 
-            console.log(validateCity(name))
-            return res.sendStatus(409) }
-        else {
+        await citiesServices.validateCity(name)
 
 
-        await cityPost(name)
+        await citiesRepository.create(name)
 
         res.sendStatus(201);
-        }
-    } catch (err) {
-        res.status(500).send(err.message)
-    }
 
 }
 
-//export const citiesController = {create}
+export const citiesController = {create}

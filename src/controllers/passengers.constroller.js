@@ -1,4 +1,4 @@
-import { passengerPost } from "../repositories/passengers.repository.js";
+import { passengerRepository } from "../repositories/passengers.repository.js";
 
 
 async function create (req, res) {
@@ -7,7 +7,7 @@ async function create (req, res) {
 
     try{
 
-        await passengerPost(firstName, lastName)
+        await passengerRepository.create(firstName, lastName)
 
         res.sendStatus(201);
     } catch (err) {
