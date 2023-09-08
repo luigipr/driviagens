@@ -1,3 +1,4 @@
+import { badRequestError } from "../errors/badRequest.js";
 import { conflictError } from "../errors/conflict.js";
 import { notFoundError } from "../errors/notFound.js";
 import { unprocessableError } from "../errors/unprocessable.js";
@@ -51,4 +52,19 @@ function samePlace(origin, destination) {
     return
 }
 
-export const flightsServices = {CityVeryfier, checkDate, samePlace, formatDate}
+function checkQueries (smallerDate, biggerDate) {
+    if ((smallerDate && !biggerDate) || (!smallerDate && biggerDate)) throw unprocessableError("query");
+
+    if (smallerDate && biggerDate) {
+    const small = formatDate(smallerDate);
+    const big = formatDate(biggerDate);
+    const conta = dayjs(small).diff(big);
+    if (conta > 0) throw badRequestError("query");
+    }
+    
+    return
+}
+
+
+
+export const flightsServices = {CityVeryfier, checkDate, samePlace, formatDate, checkQueries}

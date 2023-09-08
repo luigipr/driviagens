@@ -16,4 +16,7 @@ async function create (req, res) {
 
 }
 
+
+
+
 export const passengercontroller = {create}
