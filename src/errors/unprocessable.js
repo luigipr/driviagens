@@ -1,6 +1,6 @@
 export function unprocessableError(resource) {
     return {
-        type: "Unprocessable Entity",
+        type: "UnprocessableEntity",
         message: `unable to process ${resource}`
     }
 }
