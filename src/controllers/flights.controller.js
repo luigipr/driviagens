@@ -30,7 +30,7 @@ export async function getFlights (req, res) {
     //if ((smallerDate && !biggerDate) || ())
     //await flightsServices.CityVeryfier(origin);
 
-    flightsServices.checkQueries(smallerDate, biggerDate)
+    flightsServices.checkQueries(smallerDate, biggerDate, page)
 
     const flights = await flightsRepository.getFlights(origin, destination, smallerDate, biggerDate, page);
 

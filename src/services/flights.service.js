@@ -52,8 +52,10 @@ function samePlace(origin, destination) {
     return
 }
 
-function checkQueries (smallerDate, biggerDate) {
+function checkQueries (smallerDate, biggerDate, page) {
     if ((smallerDate && !biggerDate) || (!smallerDate && biggerDate)) throw unprocessableError("query");
+
+    if(typeof(page) === 'string' || page<= 0) throw badRequestError(page)
 
     if (smallerDate && biggerDate) {
     const small = formatDate(smallerDate);

@@ -10,8 +10,9 @@ async function getPassengerById (passengerId) {
     return passenger.rows[0]
 }
 
-async function getTravels(name) {
+async function getTravels(name, page) {
 
+    let qtd = 10;
     let baseQuery = `SELECT passengers."firstName", passengers."lastName", COUNT(travels.id) AS travels FROM passengers JOIN travels ON 
     passengers.id = travels."passengerId"`;
     const params = [];
@@ -20,10 +21,15 @@ async function getTravels(name) {
         params.push(`%${name}%`) 
     }
     baseQuery += `GROUP BY passengers.id ORDER BY travels DESC`;
+
+    if (page) {
+        baseQuery += ` ORDER BY flights.date LIMIT ${qtd} OFFSET $${params.length + 1}`;
+        params.push((page - 1) * qtd);
+    }
     
     const travels = await db.query(baseQuery, params);
 
-    if (travels.rowCount> 10) throw internalServerError();
+    if (travels.rowCount > 10) throw internalServerError();
 
     const tableTravels = travels.rows.map(travel => {return {passenger: travel.firstName + " " + travel.lastName, travels: travel.travels}})
 
