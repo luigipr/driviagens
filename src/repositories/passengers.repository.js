@@ -22,6 +22,8 @@ async function getTravels(name, page) {
     }
     baseQuery += `GROUP BY passengers.id ORDER BY travels DESC`;
 
+    if (typeof(page) === 'string' || page <= 0) throw badRequestError('page')
+
     if (page) {
         baseQuery += ` ORDER BY flights.date LIMIT ${qtd} OFFSET $${params.length + 1}`;
         params.push((page - 1) * qtd);

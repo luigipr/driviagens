@@ -1,4 +1,5 @@
 import db from "../databases/database.js";
+import { badRequestError } from "../errors/badRequest.js";
 
 async function create(origin, destination, date) {
     return await db.query(`INSERT INTO flights(origin, destination, date) VALUES ($1, $2, $3)`, [origin, destination, date]);
@@ -34,6 +35,8 @@ async function getFlights(origin, destination, smallerDate, biggerDate, page) {
     }
 
     query += `ORDER BY flights.date`
+
+    if (typeof(page) === 'string' || page <= 0) throw badRequestError('page')
 
     if (page) {
         query += ` ORDER BY flights.date LIMIT ${qtd} OFFSET $${params.length + 1}`;
