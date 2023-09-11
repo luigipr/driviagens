@@ -27,6 +27,8 @@ async function getTravels(name, page) {
     if (page) {
         baseQuery += ` ORDER BY flights.date LIMIT ${qtd} OFFSET $${params.length + 1}`;
         params.push((page - 1) * qtd);
+    } else {
+        baseQuery += ` ORDER BY flights.date LIMIT ${qtd}`
     }
     
     const travels = await db.query(baseQuery, params);
